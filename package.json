@@ -1,0 +1,21 @@
+{
+  "name": "nodejs-basics",
+  "version": "1.0.0",
+  "description": "A nodejs basic tutorial",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "basic",
+    "tutorial"
+  ],
+  "author": "hashcode",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.13",
+    "body-parser": "latest"
+  }
+}
