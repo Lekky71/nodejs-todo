@@ -18,6 +18,7 @@ mongoose.connect('mongodb://localhost:27017/todoApp', {useNewUrlParser: true})
     .then(() => {console.log('Database is Connected');})
     .catch((err) => {throw err});
 
+// Create a todo
 app.post('/', (req, res) => {
     const {title, content} = req.body;
     if(!title){
@@ -36,6 +37,7 @@ app.post('/', (req, res) => {
     });
 });
 
+// Get a todo by id
 app.get('/:id', (req, res) => {
     const {id} = req.params;
     if(!id){
@@ -53,6 +55,41 @@ app.get('/:id', (req, res) => {
 
     });
 
+});
+
+// Get all todos
+app.get('/todo/all',(req,res)=>{
+    Todo.find({}, function(err, todo) {
+        if (err) throw err;
+        if (todo.length === 0){
+            return res.json({
+                message: "No todo found"
+            })
+        }
+        return res.json({
+            success: true,
+            length: todo.length,
+            todo
+        })
+      });
+});
+
+// Search for todo by content or title
+app.get('/',(req,res)=>{
+    const searchQuery = req.query;
+
+    Todo.find(searchQuery,(err,todo)=>{
+        if (err) throw err;
+        if (todo.length === 0){
+            return res.json({
+                message: "No todo found"
+            })
+        }
+        return res.json({
+            found: todo.length,
+            todo
+        })
+    });
 });
 
 
