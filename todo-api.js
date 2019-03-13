@@ -21,6 +21,8 @@ mongoose.connect('mongodb://localhost:27017/todoApp', {useNewUrlParser: true})
 // Create a todo
 app.post('/', (req, res) => {
     const {title, content} = req.body;
+    console.log(req.body);
+
     if(!title){
         return res.json({error: 'Enter title.'})
     }
@@ -76,7 +78,14 @@ app.get('/todo/all',(req,res)=>{
 
 // Search for todo by content or title
 app.get('/',(req,res)=>{
-    const searchQuery = req.query;
+    console.log(req.query);
+    const queryString = req.query.q;
+    //validate endpoints
+  if(!queryString){
+      return res.json({error: 'Enter param q'});
+  }
+
+    const searchQuery = {title: { $regex: queryString, $options: "i" }};
 
     Todo.find(searchQuery,(err,todo)=>{
         if (err) throw err;
