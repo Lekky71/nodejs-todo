@@ -4,7 +4,8 @@
   "description": "A nodejs basic tutorial",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon todo-web-page.js"
   },
   "keywords": [
     "nodejs",
@@ -14,8 +15,9 @@
   "author": "hashcode",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "latest",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "mongoose": "^5.4.13",
-    "body-parser": "latest"
+    "mongoose": "^5.4.13"
   }
 }
