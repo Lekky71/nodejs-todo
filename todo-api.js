@@ -87,7 +87,7 @@ app.get('/',(req,res)=>{
 
     const searchQuery = {title: { $regex: queryString, $options: "i" }};
 
-    Todo.find(searchQuery,(err,todo)=>{
+    Todo.find(searchQuery,(err, todo)=>{
         if (err) throw err;
         if (todo.length === 0){
             return res.json({

@@ -4,8 +4,8 @@
   "description": "A nodejs basic tutorial",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon todo-web-page.js"
+    "start": "nodemon todo-web-page.js",
+    "start-app": "node app.js"
   },
   "keywords": [
     "nodejs",
