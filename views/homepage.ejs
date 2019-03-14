@@ -2,37 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All todos</title>
-
-    <style>
-        .container {
-            width: 80%;
-            position: center;
-            text-align: center;
-        }
-        .todo-row {
-            background: ghostwhite;
-            color: black;
-            flex-direction: column;
-        }
-        .todo-column {
-            width: 33.33%;
-        }
-    </style>
+    <title><%= name%></title>
+    <link type="text/css" href="/css/main.css" rel="stylesheet"/>
 </head>
 <body>
     <div class="container">
-        <div class="todo-row">
-            <h4 class="todo-column">
-                Title
-            </h4>
-            <h5 class="todo-column">
-                Content
-            </h5>
-            <h5 class="todo-column">
-                Date
-            </h5>
-        </div>
+        <table>
+            <tr class="todo-row">
+                <td class="todo-column">
+                    Title
+                </td>
+                <td class="todo-column">
+                    Content
+                </td>
+                <td class="todo-column">
+                    Date
+                </td>
+            </tr>
+        <% allTodos.forEach( todo =>{%>
+            <tr class="todo-row">
+                <td class="todo-column">
+                    <%= todo.title%>
+                </td>
+                <td class="todo-column">
+                    <%= todo.content%>
+                </td>
+                <td class="todo-column">
+                    <%= todo.date_created%>
+                </td>
+            </tr>
+        <%});%>
+        </table>
     </div>
 </body>
 </html>

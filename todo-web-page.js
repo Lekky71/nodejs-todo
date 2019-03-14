@@ -1,18 +1,17 @@
 const express = require('express');
 let bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
 const mongoose = require('mongoose');
-const TodoApi =  require('./models/Todo');
+const Todo =  require('./models/Todo');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-// CREATE TODO
-// GET ALL TODOs
-// GET A TODO BY IT'S ID
-// SEARCH FOR TODO BY TITLE OR CONTENT
-// UPDATE A TODO
-// DELETE A TODO
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'statics')));
+
+app.set('view engine', 'ejs');
 
 mongoose.connect('mongodb://localhost:27017/todoApp', {useNewUrlParser: true})
     .then(() => {console.log('Database is Connected');})
@@ -29,13 +28,13 @@ app.post('/', (req, res) => {
     if(!content){
         return res.json({error: 'Enter content.'})
     }
-    const todo = new TodoApi({
+    const todo = new Todo({
         title,
         content
     });
     todo.save((err) => {
         if(err) throw err;
-        return res.json({'message': 'todo created'});
+        return res.redirect('/todo/all');
     });
 });
 
@@ -45,7 +44,7 @@ app.get('/:id', (req, res) => {
     if(!id){
         return res.json({error: 'Enter id.'})
     }
-    TodoApi.findById(id, (err, todo) => {
+    Todo.findById(id, (err, todo) => {
         if(err) return res.json({error: 'Enter valid id.'});
         if(!todo){
             return res.json({error: 'No todo found with the ID.'})
@@ -61,23 +60,27 @@ app.get('/:id', (req, res) => {
 
 // Get all todos
 app.get('/todo/all',(req,res)=>{
-    TodoApi.find({}, function(err, todo) {
+    Todo.find({}, function(err, todo) {
         if (err) throw err;
         if (todo.length === 0){
             return res.json({
                 message: "No todo found"
             })
         }
-        return res.json({
-            success: true,
-            length: todo.length,
-            todo
-        })
+        return res.render('homepage', {allTodos: todo, name: 'Emmanuel'});
+        // return res.json({
+        //     success: true,
+        //     length: todo.length,
+        //     todo
+        // })
       });
 });
 
+app.get('/', (req, res) => {
+    return res.render('add-todo');
+});
 // Search for todo by content or title
-app.get('/',(req,res)=>{
+app.get('/search',(req,res)=>{
     console.log(req.query);
     const queryString = req.query.q;
     //validate endpoints
@@ -87,7 +90,7 @@ app.get('/',(req,res)=>{
 
     const searchQuery = {title: { $regex: queryString, $options: "i" }};
 
-    TodoApi.find(searchQuery,(err, todo)=>{
+    Todo.find(searchQuery,(err, todo)=>{
         if (err) throw err;
         if (todo.length === 0){
             return res.json({
