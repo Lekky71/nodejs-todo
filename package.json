@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon todo-web-page.js",
-    "start-app": "node app.js"
+    "start-app": "nodemon todo-api.js"
   },
   "keywords": [
     "nodejs",
